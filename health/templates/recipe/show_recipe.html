@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+
+<div class="recipe-detail-container" style="width: 100%; margin: 20px 0; ">
+
+    <div class="recipe-title" style="text-align: center; margin: 20px; ">
+        <h2>{{object.title}}</h2>
+        <h5>by {{object.author}}</h5>
+    </div>
+
+    <div class="recipe-img" style="display: flex; justify-content: center;">
+        <img src="{% static object.image %}" style="width: 410px; height: 410px;">
+    </div>
+
+    <hr style="width: 50%; margin: 40px auto;">
+
+    <div class="recipe-content" style="display: flex; justify-content:space-evenly">
+        <h2>Ingredients & Directions:</h2>
+        <div class="ingredients-directions" style="width:50% ;">
+            {% comment %} 1.Bring a large pot of lightly salted water to a boil. Add penne and cook, stirring
+            occasionally, until
+            tender yet firm to the bite, about 11 minutes.<br>
+            2.Meanwhile, melt butter in a large skillet over medium heat. Add mushrooms, onion, bell pepper, and garlic;
+            saute until softened, 5 to 10 minutes. Season with salt, pepper, 1 teaspoon Italian seasoning, and crushed
+            red chili pepper. Add spinach and tomato towards the end of the saute process and cook until spinach has
+            wilted. {% endcomment %}
+            {{object.text}}
+        </div>
+    </div>
+
+    <hr style="width: 50%; margin: 40px auto;">
+
+    <div class="nutrition-content" style="display: flex; justify-content:space-evenly">
+        <h2> Nutrition Facts:</h2>
+        <div class="recipe-calories" style="width:50%; margin-top: 20px;">
+            Per Serving: {{object.calories}} Kcal 
+        </div>
+    </div>
+
+    <br>
+    
+    <div style="display:flex; float:right">
+
+        <p style="float: right; margin: 25px 0;">{{ total_likes }}
+            <i class="fa fa-heart fa-lg" style="color: red;" aria-hidden="true"></i>
+        </p>
+
+        <form method="POST" action="{% url 'health-like' %}">
+            {% csrf_token%}
+            {% if is_liked %}
+            <button style="background-color: #D77A61; border: #D77A61; float: right; margin: 20px; color:black;"
+                type="submit" name="post_id" value="{{object.id}}" class="btn btn-danger">DisLike</button>
+            {% else %}
+            <button style="background-color: #D77A61; border: #D77A61; float: right; margin: 20px;color:black;"
+                type="submit" name="post_id" value="{{object.id}}" class="btn btn-primary">like</button>
+            {% endif %}
+        </form>
+
+    {% if object.author == user %}
+       
+     <div class="add-recipe-btn">
+        <button type="button" id="add-recipe" class="btn btn-light" data-mdb-ripple-color="dark"
+            style="background-color: #D77A61; border: #D77A61; float: right; margin: 20px;"><a
+                href="{% url 'delete_recipe' pk=object.id%}"
+                style="text-decoration: none; color: black;">Delete</a></button>
+    </div> 
+
+     <div class="add-recipe-btn">
+        <button type="button" id="add-recipe" class="btn btn-light" data-mdb-ripple-color="dark"
+            style="background-color: #D77A61; border: #D77A61; float: right; margin: 20px;"><a
+                href="{% url 'update_recipe' pk=object.id%}"
+                style="text-decoration: none; color: black;">Edit</a></button>
+    </div> 
+    {%endif%}
+
+    </div>
+
+    <br>
+    <br><br>
+
+    <hr style=" margin: 30px auto;">
+
+    <div class="comment">
+        <h2 style="text-align: center; margin-bottom: 20px; font-weight: bold;">Reviews</h2>
+
+        <div class="write-review" style="display: flex; justify-content:center; margin: 0 10px;">
+            <form method="POST">
+                {% csrf_token %}
+                {{comment_form.as_p}}
+                <input type="submit" name="comment" class="btn btn-warning"
+                    style="background-color: #D77A61; border: #D77A61; color:black; float:right; margin:10px; margin-top:0px">
+            </form>
+        </div>
+
+        {% for comment in comments %}
+        <blockquote class="blockquote">
+            <div class="comment-content" style="display: flex; justify-content:center;">
+
+                <div class="comment-container"
+                    style="display: flex; justify-content:center; width: 50%;">
+                    <p style="flex:2;"><span style="color:grey; font-size:15px">@{{comment.user|capfirst}}</span><br>{{ comment.content}}</p>
+
+                      <div style="margin-top:15px">
+                           {% ifequal object.author.id user.id%}
+                            <button style="background-color: #D77A61; border: #D77A61; color:black;"
+                                class="btn btn-dark"><i class="material-icons"><a
+                                        href="{% url 'health-comment' comment.id %}"
+                                        style="text-decoration:none; color:black;">delete</a></i></button>
+                            {% endifequal %}
+                            {% ifequal comment.user.id user.id%}
+                            {% ifequal comment.user.id object.author.id%}
+                            {% else %}
+                            
+                            <button style="background-color: #D77A61; border: #D77A61; color:black;"
+                                class="btn btn-dark"><i class="material-icons"><a
+                                        href="{% url 'health-comment' comment.id %}"
+                                        style="text-decoration:none; color:black;">delete</a></i></button>
+                            {% endifequal %}
+                            {% endifequal %} 
+                        </div>
+        </blockquote>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+{% endblock %}

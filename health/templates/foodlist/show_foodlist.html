@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="foodlist-container" style="margin: 0 auto;">
+
+    <div class="dates" style="display: flex; margin:10px;     justify-content: center;
+    ">
+        <button onclick="location.href ='{% url 'all_foodlist' date=yesterday %}'" style="background:transparent; border:none"><</button></h1>
+        <h1 style="text-align: center; margin: 10px;">{{convertdare}}</h1>
+        <button onclick="location.href ='{% url 'all_foodlist' date=tomorrow %}'" style="background:transparent; border:none">></button>
+    </div>
+
+ <div class="row">
+        <div class="add-recipe-btn">
+            <button type="button" id="add-recipe" class="btn btn-light" data-mdb-ripple-color="dark"
+                style="background-color: #D77A61; border: #D77A61; float: right; margin: 20px;"><a
+                    href="{% url 'new_foodlist' %} " style="text-decoration: none; color: black;">Add a new
+                    meal</a></button>
+        </div>
+    </div>
+    
+    <div class="breakfest row justify-content-center" style="margin: 10px">
+        <div class="col-sm-5" style="background-color: #dad8d8; text-align: center; border-radius: 20px;">
+            <div class="breakfest"
+                style="text-align: center; padding: 30px; margin-top: 20px; margin-bottom: 20px; padding-top: 0px;">
+                <img src="https://i.ibb.co/VqZ0FZ6/Banana.png" alt="Banana" style="width: 60px; height: 60px;">
+                <h2 style="padding:10px">Breakfest</h2>
+                <ul style="text-align: left;  ">
+                    {% for foods in all_foodlist %}
+                    {% ifequal foods.user.id user.id%}
+                    {% if foods.meal_type == "breakfest" %}
+                    <li style="text-align: left; padding-top: 3px; margin-right: 5px;">{{foods.meal_name}}<i
+                            class="material-icons" style="margin: 5px"><a href="{% url 'delete_foodlist' pk=foods.id %}"
+                                style="text-decoration:none; color:black;">delete</a></i><i class="material-icons"><a
+                                href="{% url 'update_foodlist' pk=foods.id %}"
+                                style="text-decoration:none; color:black;">edit</a></i></li>
+                    {% endif %}
+                    {% endifequal %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="lunch row justify-content-center" style="margin: 10px;">
+        <div class="col-sm-5"
+            style="background-image: linear-gradient(to left bottom, #d8b4a0, #d5ad96, #d2a58d, #ce9e83, #cb977a); text-align: center; border-radius: 20px;">
+            <div class="lunch"
+                style="text-align: center; padding: 30px; margin-top: 20px; margin-bottom: 20px; padding-top: 0px;">
+                <img src="https://i.ibb.co/M5dj2gX/Salad.png" alt="Salad" style="width: 60px; height: 60px;">
+                <h2 style="padding:10px">Lunch</h2>
+                <ul style="text-align: left;">
+                    {% for foods in all_foodlist %}
+                    {% ifequal foods.user.id user.id%}
+                    {% if foods.meal_type == "lunch" %}
+                    <li style="text-align: left; padding-top: 3px; margin-right: 5px;">{{foods.meal_name}}<i
+                            class="material-icons" style="margin: 5px"><a href="{% url 'delete_foodlist' pk=foods.id %}"
+                                style="text-decoration:none; color:black;">delete</a></i><i class="material-icons"><a
+                                href="{% url 'update_foodlist' pk=foods.id %}"
+                                style="text-decoration:none; color:black;">edit</a></i></li>
+                    {% endif %}
+                    {% endifequal %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="dinner row justify-content-center" style="margin: 10px;">
+        <div class="col-sm-5"
+            style="background-image: linear-gradient(to left bottom, #6d6875, #797381, #857f8e, #918a9b, #9d96a8); text-align: center; border-radius: 20px;">
+            <div class="dinner"
+                style="text-align: center; padding: 30px; margin-top: 20px; margin-bottom: 20px; padding-top: 0px;">
+                <img src="https://i.ibb.co/wc9xqKM/Ramen.png" alt="Ramen" style="width: 60px; height: 60px;">
+                <h2 style="padding:10px">Dinner</h2>
+                <ul style="text-align: left;">
+                    {% for foods in all_foodlist %}
+                    {% ifequal foods.user.id user.id%}
+                    {% if foods.meal_type == "dinner" %}
+                    <li style="text-align: left; padding-top: 3px; margin-right: 5px;">{{foods.meal_name}}<i
+                            class="material-icons" style="margin: 5px"><a href="{% url 'delete_foodlist' pk=foods.id %}"
+                                style="text-decoration:none; color:black;">delete</a></i><i class="material-icons"><a
+                                href="{% url 'update_foodlist' pk=foods.id %}"
+                                style="text-decoration:none; color:black;">edit</a></i></li>
+                    {% endif %}
+                    {% endifequal %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+   
+
+</div>
+
+
+
+<script>
+
+    {% comment %} BMI = ({{ user.profile.height }}/100)/({{ user.profile.height }}/100)/({{ user.profile.weight }}/1000) {% endcomment %}
+    BMI = ({{ user.profile.weight }} / ({{user.profile.height}}/100) ** 2)
+
+    document.querySelector('.BMI').innerHTML += BMI;
+
+
+
+    upper_healthyWeight = ({{ user.profile.height }}/100)*({{user.profile.height}}/100)* 25;
+
+    lower_healthyWeight = ({{ user.profile.height }}/100)*({{user.profile.height}}/100)* 18.5;
+
+    document.querySelector(".best-weight").innerHTML += "your wight should between " + lower_healthyWeight + " and  " + upper_healthyWeight + " to be healthy.";
+
+    {% if BMI <= 18.4 %}
+    document.querySelector('.BMI-result').innerHTML += "You are underweight." + BMI;
+    {% elif BMI <= 24.9 %}
+    document.querySelector('.BMI-result').innerHTML += "You are healthy." + BMI;
+    {% elif BMI <= 29.9 %}
+    document.querySelector('.BMI-result').innerHTML += "You are over weight." + BMI;
+    document.querySelector('.BMI-lose').innerHTML += "You need to lose " + lower_healthyWeight + " " + upper_healthyWeight + " " + ({{ user.profile.weight }} - upper_healthyWeight);
+    {% elif BMI <= 34.9 %}
+    document.querySelector('.BMI-result').innerHTML += "You are severely over weight." + BMI;
+    document.querySelector('.BMI-lose').innerHTML += "You need to lose " + lower_healthyWeight + " " + upper_healthyWeight + " " + ({{ user.profile.weight }} - upper_healthyWeight);
+    {% elif BMI <= 39.9 %}
+    document.querySelector('.BMI-result').innerHTML += "You are obese." + BMI;
+    document.querySelector('.BMI-lose').innerHTML += "You need to lose " + lower_healthyWeight + " " + upper_healthyWeight + " " + ({{ user.profile.weight }} - upper_healthyWeight);
+    {% else %}
+    document.querySelector('.BMI-result').innerHTML += "You are severely obese." + BMI;
+    document.querySelector('.BMI-lose').innerHTML += "You need to lose " + lower_healthyWeight + " " + upper_healthyWeight + " " + ({{ user.profile.weight }} - upper_healthyWeight);
+    {% endif %}
+
+    {% if user.profile.gender == 'male' %}
+    resultMale = 66 + (13.7 * {{ user.profile.weight }} ) + (5 * {{ user.profile.height }} ) - (6.6 * {{ user.profile.age }} )
+
+    {% comment %} {% if user.profile.activity_level == 'not active' %}
+    resultMale = resultMale * 1.2
+    {% elif user.profile.activity_level == 'somewhat active' %}
+    resultMale = resultMale * 1.375
+    {% elif user.profile.activity_level == 'medium active' %}
+    resultMale = resultMale * 1.55
+    {% elif user.profile.activity_level == 'highly active' %}
+    resultMale = resultMale * 1.725
+    {% else %}
+    resultMale = resultMale * 1.9
+    {% endif %} {% endcomment %}
+
+    document.querySelector('.result-profile').innerHTML += "Your calories to maintain your weight " + resultMale + " g";
+
+    {% if user.profile.goal_type == "lose weight" %}
+    goal = resultMale - 500
+    document.querySelector('.goal-profile').innerHTML += "Your calories to lose wight " + goal + "g";
+    document.querySelector('.goal-progress-profile').innerHTML += goal + "g";
+
+    {% else %}
+    goal = resultMale + 500
+    document.querySelector('.goal-profile').innerHTML += "Your calories to gain wight " + goal + "g";
+    document.querySelector('.goal-progress-profile').innerHTML += goal + "g";
+
+    {% endif %}
+
+    protein = (2.2 * {{ user.profile.weight }} )
+    document.querySelector('.protein-profile').innerHTML += protein + "g";
+
+    fatsForMale = (resultMale * 0.25) / 9
+    document.querySelector('.fats-profile').innerHTML += fatsForMale + "g";
+
+    carbsforMale = (resultMale - (protein * 4) + (fatsForMale * 9)) / 4
+    document.querySelector('.carbs-profile').innerHTML += carbsforMale + "g";
+
+
+    {% else %}
+    resultFemale = 655 + (9.6 * {{ user.profile.weight }}) +(1.85 * {{ user.profile.height }}) -(4.7 * {{ user.profile.age }})
+
+    {% comment %} {% if user.profile.activity_level == 'not active' %}
+    resultMale = resultMale * 1.2
+    {% elif user.profile.activity_level == 'somewhat active' %}
+    resultMale = resultMale * 1.375
+    {% elif user.profile.activity_level == 'medium active' %}
+    resultMale = resultMale * 1.55
+    {% elif user.profile.activity_level == 'highly active' %}
+    resultMale = resultMale * 1.725
+    {% else %}
+    resultMale = resultMale * 1.9
+    {% endif %} {% endcomment %}
+
+    document.querySelector('.result-profile').innerHTML += "Your calories to maintain your weight " + resultFemale + " g";
+
+    {% if user.profile.goal_type == "lose weight" %}
+    goal = resultFemale - 500
+    document.querySelector('.goal-profile').innerHTML += "Your calories to lose wight " + goal + "g";
+    document.querySelector('.goal-progress-profile').innerHTML += goal + "g";
+
+    {% else %}
+    goal = resultFemale + 500
+    document.querySelector('.goal-profile').innerHTML += "Your calories to gain wight " + goal + "g";
+    document.querySelector('.goal-progress-profile').innerHTML += goal + "g";
+
+    {% endif %}
+    protein = (2.2 * {{ user.profile.weight }} )
+    document.querySelector('.protein-profile').innerHTML += protein + "g";
+
+
+    fatsForFemale = (resultFemale * 0.25) / 9
+    document.querySelector('.fats-profile').innerHTML += fatsForFemale + "g";
+
+
+    carbsforFemale = (resultFemale - (protein * 4) + (fatsForFemale * 9)) / 4
+    document.querySelector('.carbs-profile').innerHTML += carbsforFemale + "g";
+
+    {% endif %}
+
+</script>
+{% endblock %}

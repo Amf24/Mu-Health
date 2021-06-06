@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mu Health</title>
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+    crossorigin="anonymous" />
+    <!-- chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- dark mode -->
+  <link href="/static/admin/css/dark.css" type="text/css" media="(prefers-color-scheme: dark)" rel="stylesheet">
+  <!-- icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/recipes.css' %}">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #6D6875; font-size: 20px;">
+    <div class="container">
+        <img  class="navbar-brand" src="{% static 'img/logo.png' %}" alt="" style="width: 100px; height: 100px; padding:0px">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+        <div></div>
+
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a style="color:#D8B4A0 ;" class="nav-link active " aria-current="page" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a style="color:#D8B4A0 ;" class="nav-link" href="{% url 'all_recipes' %}">Recipe</a>
+          </li>
+
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a style="color:#D8B4A0 ;" class="nav-link" href="{% url 'profile' %}" tabindex="-1">Profile</a>
+            
+
+            
+            
+          </li>
+          <li class="nav-item">
+          <a style="color:#D8B4A0 ;" class="nav-link" href="{% url 'user_recipe' %}" tabindex="-1">Your Recipe</a>
+          </li>
+
+          {% endif%}
+
+
+        </ul>
+        <div>
+          {% if not user.is_authenticated %}
+          <a href="{% url 'register' %}" class="btn btn-outline-dark m-2"> register</a>
+          <a href="{% url 'login' %}" class="btn btn-outline-dark"> login</a>
+          {% else %}
+          <a href="{% url 'logout' %}" class="btn btn-outline-dark"> logout</a>
+          {% endif%}
+        </div>
+      </div>
+
+  </nav>
+
+  {% if messages %}
+
+  {% for message in messages %}
+  <div class="alert alert-{{message.tags}} django-msg" role="alert">
+    <h4 class="alert-heading text-center ">
+      {{message}}
+    </h4>
+  </div>
+  {% endfor %}
+  {%endif %}
+
+  <main style="min-height: calc( 100vh - (90px + 56px));">
+    {% block content%}
+    {% endblock %}
+  </main>
+
+  
+  <footer class="p-3" style="background-color: #B5838D">
+    <h2 class="text-center">&#169; Mu</h2>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{% static 'js/main.js'%}"></script>
+</body>
+
+</html>
+
+  <script src="{% static 'js/main.js'%}"></script>
+  {% block javascript %}{% endblock javascript %}
+<script>
+  setTimeout(() => document.querySelector('.django-msg').remove(), 3000)
+</script>

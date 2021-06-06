@@ -1,0 +1,426 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container" style="margin:0 auto;">
+    <div class="row">
+
+        <div class="col-sm-4 mr-5 mb-5">
+            <div class="col-md-14 mt-5 shadow" style="background-color:#DBD3D8;  border-radius: 20px; ">
+                <img src="{% static user.profile.image %}" class="img-fluid" alt=""
+                    style="width:auto; margin: 10px auto; display: block; border-top-right-radius:20px ; border-top-left-radius:20px ;">
+                <div class="about-card-container" style="overflow: auto;">
+                    <h3 style="padding-left: 20px; margin-bottom: 0px; font-size: 23px;">{{user.first_name}}
+                        {{user.last_name}}
+                        {% if user.profile.gender == "female" %}
+                        <i class="fas fa-venus"></i>
+                        {% else %}
+                        <i class="fas fa-mars"></i>
+                        {% endif %}
+                    </h3>
+                    <h5 style="color: gray; padding-left: 20px; margin-top: 0px; font-size: 15px;">@{{user.username}}
+                    </h5>
+                    <hr style="margin: 20px 5px;">
+                    <h5
+                        style="font-weight: bold; text-transform: uppercase; padding-left: 15px; padding-bottom: 5px; font-size: 19px;">
+                        About</h5>
+                    <div class="about-content" style="padding: 0 20px; font-size: 15px;">
+                        <p><i class="fas fa-envelope" style="margin-right: 3px; display: inline;"></i>{{user.email}}</p>
+                        <div class="dimention" style="display: flex;">
+                            <p style="margin-right: 20px;"><i class="fas fa-weight"
+                                    style="margin-right: 2px; display: inline;"></i>{{user.profile.weight}}</p>
+                            <p><i class="fas fa-text-height"
+                                    style="margin-right: 2px; display:inline;"></i>{{user.profile.height}}</p>
+                        </div>
+                        <p><i class="fas fa-bullseye"
+                                style="margin-right: 2px; display: inline;"></i>{{user.profile.goal_type}}</p>
+                    </div>
+
+                    <hr style="margin: 20px 5px">
+                    <p class="BMI" style="padding: 0 20px; font-size: 15px;">BMI:</p>
+                    <div class="profile-btn" style="display:flex; padding: 2px 20px; font-size: 15px;">
+
+                        <div class="add-recipe-btn">
+                            <button type="button" id="add-recipe" class="btn btn-light" data-mdb-ripple-color="dark"
+                                style="background-color: #D77A61; border: #D77A61; margin:5px"><a
+                                    href="{% url 'delete'%}" style="text-decoration: none; color: black;">Delete Account
+                                </a></button>
+                        </div>
+                        <div class="add-recipe-btn">
+                            <button type="button" id="add-recipe" class="btn btn-light" data-mdb-ripple-color="dark"
+                                style="background-color: #D77A61; border: #D77A61; margin:5px"><a
+                                    href="{% url 'editprofile' %}" style="text-decoration: none; color: black;">Edit
+                                    Account
+                                </a></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-14 shadow mt-5"
+                style="background-color:#efefef; border-radius: 10px; margin-bottom: 30px;">
+                <img src="{% static 'img/undraw_yoga_248n.svg' %}" style="width: 160px; height: 160px;">
+                <h3 style="padding: 8px;">Health information</h3>
+                <ul style="text-align: left;">
+                    <li><span class="result-profile"></span></li>
+                    <li><span class="goal-profile"></span></li>
+                </ul>
+                <hr style="margin: 10px">
+                <h6>Recommendation</h6>
+                <ul style="text-align: left; padding-bottom: 8px;">
+                    <li><span class="BMI-result"></span></li>
+                    <li><span class="BMI-lose"></span></li>
+                    <li><span class="best-weight"></span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col mt-5">
+            <div class="profile-progress-container" style="padding: 20px; width:100%; align-items:center;">
+                <div class="progress-content ">
+                    <h2>Your Daily Progress</h2>
+
+
+                    <div class="progress-titles">
+
+                    </div>
+                    <div class="progress-titles">
+
+                        <p class="protein-profile">Protein<br></p>
+                        <p class="carbs-profile">Carbs<br></p>
+                        <p class="fats-profile">Fats<br></p>
+                    </div>
+
+                    <br>
+                    <div class="progress">
+                        <div id="progress-width" class="progress-bar bg-success" role="progressbar" style="width: 25%"
+                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><span class="prog-num"></span>
+                        </div>
+                    </div>
+                    <div class="progress-titles">
+                        <p>Your Goal<br><span class="goal-progress-profile"></span></p>
+                        <p class="FoodMeal">Food<br></p>
+                        <p class="Caloriesleft">Calories left<br></p>
+                        <p class="totalCalories">Calories eaten<br></p>
+
+                    </div>
+
+                    <div class="add-recipe-btn">
+                        <button type="button" id="add-recipe" class="btn btn-light" data-mdb-ripple-color="dark"
+                            style="background-color: #D77A61; border: #D77A61; margin: 20px;"><a
+                                href="{% url 'all_foodlist' date=today %} "
+                                style="text-decoration: none; color: black;">Show
+                                Calories list</a></button>
+                    </div>
+                    <hr>
+
+                    <div class="col-8" style="margin: 30px auto;">
+                        <!-- health information -->
+                        {% comment %} <div class="col-md-14 shadow"
+                            style="background-color:#efefef; border-radius: 10px; margin-bottom: 30px;">
+                            <img src="{% static 'img/undraw_yoga_248n.svg' %}" style="width: 160px; height: 160px;">
+                            <h3 style="padding: 8px;">Health information</h3>
+                            <ul style="text-align: left;">
+                                <li><span class="result-profile"></span></li>
+                                <li><span class="goal-profile"></span></li>
+                            </ul>
+                            <hr style="margin: 10px">
+                            <h6>Recommendation</h6>
+                            <ul style="text-align: left; padding-bottom: 8px;">
+                                <li><span class="BMI-result"></span></li>
+                                <li><span class="BMI-lose"></span></li>
+                                <li><span class="best-weight"></span></li>
+                            </ul>
+                        </div> {% endcomment %}
+
+
+                        <div style="display: inline-block; margin-left: -90px;">
+                            <h3>Nutrition intake</h3>
+                            <div class="chart" style="width: 400px; height: 400px;">
+                                <canvas id="myChart" width="400" height="400" st></canvas>
+                            </div>
+                        </div>
+                        <hr>
+
+                        {% comment %} <div class="posted-recipies">
+                            <h2 class="posted-title" style="margin-bottom: 30px;">Posted Recipies</h1>
+                                {% for recipe in recipes %}
+                                <section class="cards" style="margin: 10px;">
+                                    <article class="card card--1"
+                                        style="background-image: url({% static recipe.image %})">
+                                        <div class="card__info-hover">
+                                        </div>
+                                        <div class="card__img" style="background-image: url({% static recipe.image %})">
+                                        </div>
+                                        <a href="{% url 'show_recipe' pk=recipe.id %}" class="card_link">
+                                            <div class="card__img--hover"></div>
+                                        </a>
+                                        <div class="card__info">
+                                            <span class="card__category">Recipe</span>
+                                            <h3 class="card__title">{{recipe.title}}</h3>
+                                            <span class="card__by">by <a class="card__author"
+                                                    title="author">{{recipe.author}}</a></span>
+                                        </div>
+                                    </article>
+                                </section>
+                                {% endfor %}
+                                <div class="pagination" style="justify-content: center; margin:28px">
+                                    <ul style="display: flex; list-style-type: none; font-size: 20px;">
+                                        {% if recipes.has_previous %}
+                                        <li style="margin-left: 5px;"><a href="?page={{recipes.previous_page_number}}"
+                                                style="text-decoration: none; color: black;">Previous</a></li>
+                                        {% endif %}
+                                        {% for pg in recipes.paginator.page_range %}
+                                        {% if recipes.number == pg %}
+                                        <li class="active" style="margin-left: 5px;"><a href="?page={{ pg }}"
+                                                style="color: black;">{{ pg }}</a></li>
+                                        {% else %}
+                                        <li style="margin-left: 5px;"><a href="?page={{ pg }}"
+                                                style="text-decoration: none; color: black;">{{ pg }}</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% if recipes.has_next %}
+                                        <li style="margin-left: 5px;"><a href="?page={{ recipes.next_page_number }}"
+                                                style="text-decoration: none; color: black;">Next</a></li>
+                                        {% endif %}
+
+                                    </ul>
+                                </div>
+                        </div> {% endcomment %}
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+    <!-- <div class="posted-recipies">
+        <h2 class="posted-title" style="margin-bottom: 30px;">Posted Recipies</h1>
+            {% for recipe in recipes %}
+            <section class="cards" style="margin: 10px;">
+                <article class="card card--1" style="background-image: url({% static recipe.image %})">
+                    <div class="card__info-hover">
+                    </div>
+                    <div class="card__img" style="background-image: url({% static recipe.image %})">
+                    </div>
+                    <a href="{% url 'show_recipe' pk=recipe.id %}" class="card_link">
+                        <div class="card__img--hover"></div>
+                    </a>
+                    <div class="card__info">
+                        <span class="card__category">Recipe</span>
+                        <h3 class="card__title">{{recipe.title}}</h3>
+                        <span class="card__by">by <a class="card__author" title="author">{{recipe.author}}</a></span>
+                    </div>
+                </article>
+            </section>
+            {% endfor %}
+            <div class="pagination" style="justify-content: center; margin:28px">
+                <ul style="display: flex; list-style-type: none; font-size: 20px;">
+                    {% if recipes.has_previous %}
+                    <li style="margin-left: 5px;"><a href="?page={{recipes.previous_page_number}}"
+                            style="text-decoration: none; color: black;">Previous</a></li>
+                    {% endif %}
+                    {% for pg in recipes.paginator.page_range %}
+                    {% if recipes.number == pg %}
+                    <li class="active" style="margin-left: 5px;"><a href="?page={{ pg }}" style="color: black;">{{ pg
+                            }}</a></li>
+                    {% else %}
+                    <li style="margin-left: 5px;"><a href="?page={{ pg }}"
+                            style="text-decoration: none; color: black;">{{ pg }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if recipes.has_next %}
+                    <li style="margin-left: 5px;"><a href="?page={{ recipes.next_page_number }}"
+                            style="text-decoration: none; color: black;">Next</a></li>
+                    {% endif %}
+
+                </ul>
+            </div>
+    </div> -->
+
+</div>
+
+<script>
+    var height = Number("{{user.profile.height}}")
+    var weight = Number("{{user.profile.weight}}")
+    var activity_level = String("{{user.profile.activity_level}}")
+    var age = Number("{{user.profile.age}}")
+    var gender = String("{{user.profile.gender}}")
+    var gole_type = String("{{user.profile.goal_type}}")
+    console.log(height)
+    console.log(weight)
+    console.log(activity_level)
+    console.log(age)
+    console.log(gender)
+    console.log(gole_type)
+
+    {% comment %} BMI = ({{ user.profile.height }}/100)/({{ user.profile.height }}/100)/({{ user.profile.weight }}/1000) {% endcomment %}
+    var BMI = (weight / (height / 100) ** 2)
+
+    document.querySelector('.BMI').innerHTML += BMI.toFixed(2);
+
+
+
+    var upper_healthyWeight = (height / 100) * (height / 100) * 25;
+
+    var lower_healthyWeight = (height / 100) * (height / 100) * 18.5;
+
+    document.querySelector(".best-weight").innerHTML += "your wight should between " + lower_healthyWeight.toFixed(2) + " and  " + upper_healthyWeight.toFixed(2) + " to be healthy.";
+    body_status = ""
+    BMI_result = ""
+
+    if (BMI <= 18.4) {
+        BMI_result = "You are underweight." + BMI.toFixed(2)
+        body_status = "Your weight is perfect!"
+    } else if (BMI > 18.4 && BMI <= 24.9) {
+        BMI_result = "You are healthy." + BMI.toFixed(2)
+        body_status = "Your weight is perfect!"
+    } else if (BMI > 24.9 && BMI <= 29.9) {
+        BMI_result = "You are over weight." + BMI.toFixed(2)
+        body_status = "You need to lose " + (weight - upper_healthyWeight.toFixed(2)) + " kcal";
+
+    } else if (BMI > 29.9 && BMI <= 34.9) {
+        BMI_result = "You are severely over weight." + BMI.toFixed(2)
+        body_status = "You need to lose " + (weight - upper_healthyWeight.toFixed(2)) + " kcal";
+    } else if (BMI > 34.9 && BMI <= 39.9) {
+        BMI_result = "You are obese." + BMI.toFixed(2)
+        body_status = "You need to lose " + (weight - upper_healthyWeight.toFixed(2) + " kcal");
+    } else {
+        BMI_result = "You are severely obese." + BMI.toFixed(2)
+        body_status = "You need to lose " + (weight - upper_healthyWeight.toFixed(2) + " kcal");
+    }
+
+    document.querySelector('.BMI-result').innerHTML += BMI_result;
+    document.querySelector('.BMI-lose').innerHTML += body_status;
+
+    if (gender == 'male') {
+        resultMale = 66 + (13.75 * weight) + (5 * height) - (6.76 * age)
+
+        if (activity_level == 'not active') {
+            resultMale = resultMale * 1.2
+        } else if (activity_level == 'somewhat active') {
+            resultMale = resultMale * 1.375
+        } else if (activity_level == 'medium active') {
+            resultMale = resultMale * 1.55
+        } else if (activity_level == 'highly active') {
+            resultMale = resultMale * 1.725
+        } else {
+            resultMale = resultMale * 1.9
+        }
+
+        document.querySelector('.result-profile').innerHTML += "Your calories to maintain your weight " + resultMale.toFixed(2) + " kcal";
+
+        if (gole_type == "lose weight") {
+            goal = resultMale - 500
+            document.querySelector('.goal-profile').innerHTML += "Your calories to lose wight " + goal.toFixed(2) + " kcal";
+            document.querySelector('.goal-progress-profile').innerHTML += goal.toFixed(2);
+
+        } else {
+            goal = resultMale + 500
+            document.querySelector('.goal-profile').innerHTML += "Your calories to gain wight " + goal.toFixed(2) + " kcal";
+            document.querySelector('.goal-progress-profile').innerHTML += goal.toFixed(2);
+        }
+
+        protein = (1.1 * (weight / 0.45359237)) * 4
+        document.querySelector('.protein-profile').innerHTML += protein.toFixed(2) + " kcal";
+
+        fatsForMale = (resultMale * 0.20) / 9
+        document.querySelector('.fats-profile').innerHTML += fatsForMale.toFixed(2) + " kcal";
+
+        carbsforMale = (resultMale - (protein + (resultMale * 0.25))) / 4
+        document.querySelector('.carbs-profile').innerHTML += carbsforMale.toFixed(2) + " kcal";
+
+
+    } else {
+
+        resultFemale = 655 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
+
+        if (activity_level == 'not active') {
+            resultFemale = resultFemale * 1.2
+        } else if (activity_level == 'somewhat active') {
+            resultFemale = resultFemale * 1.375
+        } else if (activity_level == 'medium active') {
+            resultFemale = resultFemale * 1.55
+        } else if (activity_level == 'highly active') {
+            resultFemale = resultFemale * 1.725
+        } else {
+            resultFemale = resultFemale * 1.9
+        }
+        console.log(resultFemale)
+        document.querySelector('.result-profile').innerHTML += "Your calories to maintain your weight " + resultFemale.toFixed(2) + " kcal";
+
+        if (gole_type == "lose weight") {
+            goal = resultFemale - 500
+            document.querySelector('.goal-profile').innerHTML += "Your calories to lose wight " + goal.toFixed(2) + " kcal";
+            document.querySelector('.goal-progress-profile').innerHTML += goal.toFixed(2);
+        } else {
+            goal = resultFemale + 500
+            document.querySelector('.goal-profile').innerHTML += "Your calories to gain wight " + goal.toFixed(2) + " kcal";
+            document.querySelector('.goal-progress-profile').innerHTML += goal.toFixed(2);
+        }
+        protein = (1.1 * (weight / 0.45359237)) * 4
+        document.querySelector('.protein-profile').innerHTML += protein.toFixed(2) + "g";
+
+
+        fatsForFemale = (resultFemale * 0.20) / 9
+        document.querySelector('.fats-profile').innerHTML += fatsForFemale.toFixed(2) + "g";
+
+
+        carbsforFemale = (resultFemale - (protein + (resultFemale * 0.20))) / 4
+        document.querySelector('.carbs-profile').innerHTML += carbsforFemale.toFixed(2) + "g";
+
+    }
+
+    FoodMeal = 0
+    today_cal = 0
+    today_protein = 0
+    today_carbs = 0
+    today_fats = 0
+    today_cal_gole = document.querySelector('.goal-progress-profile').innerHTML
+
+    {% for foodday in foods %}
+    {% ifequal foodday.user.id user.id %}
+    today_cal += {{ foodday.total_calories }}
+    today_protein += {{ foodday.total_protein }}
+    today_carbs += {{ foodday.total_carbs }}
+    today_fats += {{ foodday.total_fat }}
+    FoodMeal += 1
+    {% endifequal %}
+    {% endfor %}
+
+    document.querySelector('.totalCalories').innerHTML += today_cal + " kcal";
+    document.querySelector('.Caloriesleft').innerHTML += (today_cal_gole - today_cal).toFixed(2) + " kcal";
+    document.querySelector('.FoodMeal').innerHTML += FoodMeal;
+    document.querySelector('.prog-num').innerHTML = (((today_cal * 1) / today_cal_gole) * 100).toFixed(2) + " %"
+    document.querySelector('#progress-width').style.width = (((today_cal * 1) / today_cal_gole) * 100).toFixed(2) + "%";
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Protien', 'Fats', 'Carbs'],
+            datasets: [{
+                label: '# of Votes',
+                data: [today_protein, today_fats, today_carbs],
+                backgroundColor: [
+                    '#B5838D',
+                    '#6D6875',
+                    '#D8B4A0'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+            }
+        }
+    });
+</script>
+
+{% endblock %}

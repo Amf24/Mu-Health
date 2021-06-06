@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags%} 
+
+<div class="container mt-5 shadow" style="width:90%; background-color: #DBD3D8; display: flex; ">
+
+    <div class="row justify-content-center mt-5 " style="width: 80%; color:#6D6875">
+        <div class="col-md-6" style="text-align: center;">
+            <h1 style="margin-bottom: 20px;">Login page </h1>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form | crispy}}
+                <p class="forgot-pass" style="margin-top: 15px; font-size: 12px;"> <a href="{% url 'reset_password'%}" style="text-decoration: none; color:#6D6875">Forgot password?</a></p>
+                <input class="btn mt-2" style="margin-bottom:20px; background:#D8B4A0; text-transform:uppercase; border-radius: 30px; font-size: 15px; cursor: pointer; width:29%" type="submit">
+                <br>
+                {% comment %} <button {% include "socialaccount/snippets/provider_list.html" with process="login" %} ></span></button> {% endcomment %}
+                <button type="button" class="g-btn" style="display: block; margin: 0 auto; border-radius: 30px; padding: 7px; font-size: 15px; cursor: pointer; margin-bottom: 20px; background:transparent; border:2px solid #6D6875; color:#8fa1c7;">Connect with <span style="font-weight: bold; color: #455a81;" {% include "socialaccount/snippets/provider_list.html" with process="login"%}</span></button>
+                <br>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="sub-cont" style="width: 30%; padding: 20px; text-align: center; background:linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.5)),url(https://images.unsplash.com/photo-1521986329282-0436c1f1e212?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1655&q=80); background-position: right; background-size: cover; margin-right: -12px;">
+        <div class="img" style="color: white;">
+            <div class="img__text">
+                <h2 style="font-size: 26px;">New here?</h2>
+                <p style="margin: 25px auto 25px;">Sign up and start your health journey with us!</p>
+            </div>
+            <div class="img__btn" style="background:transparent; text-transform:uppercase; font-size:15px; cursor:pointer; border:2px solid white; border-radius: 30px; width:30%; margin:0 auto; padding:3px;">
+                <a href="{% url 'register' %}" style="text-decoration: none; color:white"> Sign Up</a> 
+            </div>
+            
+        </div>
+    </div>
+
+ 
+
+</div>
+
+{% endblock %}

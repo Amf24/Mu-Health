@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags%}
+
+{% comment %} <div class="container mt-5">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <h1>register</h1>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form | crispy}}
+                {{ProfileForm | crispy}}
+            <input class="btn btn-primary mt-2" type="submit">
+            </form>
+        </div>
+    </div>
+</div> {% endcomment %}
+
+
+<div class="container mt-5 mb-5 shadow" style="width:90%; background-color: #DBD3D8; display: flex;">
+
+    <div class="row justify-content-center mt-5" style="width: 80%; color:#6D6875">
+        <div class="col-md-6" style="text-align: center;">
+            <h1 style="margin-bottom: 20px;">Registration page </h1>
+            <form action="" method="POST"  enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form | crispy}}
+                {{ProfileForm | crispy}}
+                <p class="forgot-pass" style="margin-top: 15px; font-size: 12px;">Forgot password?</p>
+                <input class="btn mt-2" style="margin-bottom:20px; background:#D8B4A0; text-transform:uppercase; border-radius: 30px; font-size: 15px; cursor: pointer; width:29%" type="submit">
+                <button type="button" class="g-btn" style="display: block; margin: 0 auto; border-radius: 30px; padding: 7px; font-size: 15px; cursor: pointer; margin-bottom: 20px; background:transparent; border:2px solid #6D6875; color:#8fa1c7;">Connect with <a href="#">Google</a></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="sub-cont" style="width: 30%; padding: 20px; text-align: center; background:linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.5)),url(https://images.unsplash.com/photo-1521986329282-0436c1f1e212?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1655&q=80); background-position: right; background-size: cover; margin-right: -12px;">
+        <div class="img" style="color: white;">
+            <div class="img__text">
+                <h2 style="font-size: 26px;">One of us?</h2>
+                <p style="margin: 25px auto 25px;">If you already have an account, just sign in. We've missed you!</p>
+            </div>
+            <div class="img__btn" style="background:transparent; text-transform:uppercase; font-size:15px; cursor:pointer; border:2px solid white; border-radius: 30px; width:30%; margin:0 auto; padding:3px;">
+                <a href="{% url 'login' %}" style="text-decoration: none; color:white"> Sign In</a> 
+            </div>
+            
+        </div>
+    </div>
+
+</div>
+
+{% endblock  %}

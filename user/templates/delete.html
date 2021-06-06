@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+{% load crispy_forms_tags%}
+
+{% comment %} <h1>Delete</h1>
+
+<h5>Are you sure you want to delete?</h5>
+<form method="POST">
+	{% csrf_token %}
+	<button type="Submit" class="del-button">Yes, Delete</button>
+</form>
+
+<a href="{% url 'profile' %}">
+	<button>No</button>
+</a> {% endcomment %}
+
+<div class="container mt-5 shadow" style="width:60%; background-color: #DBD3D8; border-radius: 20px; text-align:center">
+
+	<div class="row justify-content-center mt-5" style="color:#6D6875">
+		<h5 style="margin-bottom: 20px;">Are you sure you want to delete?</h5>
+		<form method="POST">
+			{% csrf_token %}
+			<button type="Submit" class="img__btn mb-2" style="background:transparent; text-transform:uppercase; font-size:15px; cursor:pointer; border:2px solid white; border-radius: 30px; width:30%; margin:0 auto; padding:3px; color:#6D6875">Yes, Delete</button>
+		</form>
+		<a href="{% url 'profile' %}">
+	<button class="img__btn mb-2" style="background:transparent; text-transform:uppercase; font-size:15px; cursor:pointer; border:2px solid white; border-radius: 30px; width:30%; margin:0 auto; padding:3px; color:#6D6875">No</button>
+</a> 
+	</div>
+</div>
+</div>
+
+</div>
+
+{% endblock %}

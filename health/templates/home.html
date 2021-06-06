@@ -1,0 +1,426 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+  }
+  
+  h1{
+    font-size: 2.5rem;
+    font-weight: normal;
+    text-align: center;
+    margin: 2rem 0;
+  }
+  
+  .wrapper{
+    width: 90%;
+    margin: 5px auto;
+    max-width: 80rem;
+  }
+  
+  .cols{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  
+  .col{
+    width: calc(25% - 2rem);
+    margin: 1rem;
+    cursor: pointer;
+  }
+  
+  .container{
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+    -webkit-perspective: 1000px;
+            perspective: 1000px;
+  }
+  
+  .front,
+  .back{
+    background-size: cover;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.25);
+    border-radius: 10px;
+    background-position: center;
+    -webkit-transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    -o-transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1), -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+    text-align: center;
+    min-height: 220px;
+    height: auto;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1.5rem;
+  }
+  
+  .back{
+    background: #cedce7;
+    background: -webkit-linear-gradient(45deg,  #cedce7 0%,#596a72 100%);
+    background: -o-linear-gradient(45deg,  #cedce7 0%,#596a72 100%);
+    background: linear-gradient(45deg,  #cedce7 0%,#596a72 100%);
+  }
+  
+  .front:after{
+    position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      content: '';
+      display: block;
+      opacity: .6;
+      background-color: #000;
+      -webkit-backface-visibility: hidden;
+              backface-visibility: hidden;
+      border-radius: 10px;
+  }
+  .container:hover .front,
+  .container:hover .back{
+      -webkit-transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      -o-transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1), -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+  }
+  
+  .back{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+  }
+  
+  .inner{
+      -webkit-transform: translateY(-50%) translateZ(60px) scale(0.94);
+              transform: translateY(-50%) translateZ(60px) scale(0.94);
+      top: 76%;
+      position: absolute;
+      left: 0;
+      width: 100%;
+      padding: 2rem;
+      -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+      outline: 1px solid transparent;
+      -webkit-perspective: inherit;
+              perspective: inherit;
+      z-index: 2;
+  }
+
+  .inner-img{
+      -webkit-transform: translateY(-50%) translateZ(60px) scale(0.94);
+              transform: translateY(-50%) translateZ(60px) scale(0.94);
+      top: 50%;
+      position: absolute;
+      left: 0;
+      width: 100%;
+      padding: 2rem;
+      -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+      outline: 1px solid transparent;
+      -webkit-perspective: inherit;
+              perspective: inherit;
+      z-index: 2;
+  }
+  
+  .container .back{
+      -webkit-transform: rotateY(180deg);
+              transform: rotateY(180deg);
+      -webkit-transform-style: preserve-3d;
+              transform-style: preserve-3d;
+  }
+  
+  .container .front{
+      -webkit-transform: rotateY(0deg);
+              transform: rotateY(0deg);
+      -webkit-transform-style: preserve-3d;
+              transform-style: preserve-3d;
+  }
+  
+  .container:hover .back{
+    -webkit-transform: rotateY(0deg);
+            transform: rotateY(0deg);
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+  }
+  
+  .container:hover .front{
+    -webkit-transform: rotateY(-180deg);
+            transform: rotateY(-180deg);
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+  }
+  
+  .front .inner p{
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  
+  .front .inner p:after{
+    content: '';
+    width: 4rem;
+    height: 2px;
+    position: absolute;
+    background: #C6D4DF;
+    display: block;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    bottom: -.75rem;
+  }
+  
+  .front .inner span{
+    color: rgba(255,255,255,0.7);
+    font-family: 'Montserrat';
+    font-weight: 300;
+  }
+  
+  @media screen and (max-width: 64rem){
+    .col{
+      width: calc(33.333333% - 2rem);
+    }
+  }
+  
+  @media screen and (max-width: 48rem){
+    .col{
+      width: calc(50% - 2rem);
+    }
+  }
+  
+  @media screen and (max-width: 32rem){
+    .col{
+      width: 100%;
+      margin: 0 0 2rem 0;
+    }
+  }
+
+  .hu__hu__ { animation: hu__hu__ infinite 2s ease-in-out }
+@keyframes hu__hu__ {
+    50% { transform: translateY(30px) }
+}
+</style>
+<div class="container-about">
+    <div class="about-content" style="color:#d8d6d6">
+        <h2>Welcome to Mu Health</h2>
+        <p>Mu Health is a health tracker. It tracks your weight and calculates a recommended daily calorie intake. It
+            also contains a food diary for each day. As well as, a recipe blog where you can share your healthy recipe
+            with others!</p>
+    </div>
+</div>
+
+{% if user.is_authenticated %}
+<div class="user-progress-container">
+    <div class="progress-content">
+        <h2 style="margin:10px">Your Daily Progress</h2>
+
+        <h5 class="result"></h5>
+        <h5 class="goal"></h5> 
+
+       <div class="progress-titles">
+        
+        </div> 
+        <div class="progress-titles">
+        
+            <p class="protein"> </p>
+            <p class="carbs"></p>
+            <p class="fats"></p>
+        </div> 
+        
+         <br>
+        <div class="progress">
+            <div id="progress-width" class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="25"
+                aria-valuemin="0" aria-valuemax="100"><span class="prog-num"></span></div>
+        </div>
+        
+        <div class="progress-titles">
+        
+            <p>Your Goal<br><span class="goal-progress"></span></p>
+            
+            <p class = "FoodMeal">Food<br></p>
+            <p class = "Caloriesleft">Calories left<br></p>
+            <p class = "totalCalories">Calories eaten<br></p>
+
+        </div>
+        <button type="button" id="add-recipe" class="btn btn-light" data-mdb-ripple-color="dark"
+            style="background-color: #D77A61; border: #D77A61; margin: 20px;"><a href="{% url 'all_foodlist' date=today %} "
+                style="text-decoration: none; color: black;">Show Calories list</a></button>
+    </div>
+</div>
+{% endif%}
+<div class="random-tips">
+    <p class="cssanimation hu__hu__" id="tips"></p>
+</div>
+
+
+{% comment %} ------------ test ---------------- {% endcomment %}
+
+<div class="poplular-recipies">
+
+  <div class="wrapper">
+    <h1>Latest recipes</h1>
+    {% for recipe in recipes %}
+    <div class="cols">
+      <div class="col" ontouchstart="this.classList.toggle('hover');">
+        <div class="container">
+          <div class="front" style="background-image: url({% static recipe.image %})">
+            <div class="inner">
+              <p>{{recipe.title}}</p>
+              <span>{{recipe.author}}</span>
+            </div>
+          </div>
+          <div class="back">
+            <div class="inner-img"
+              style="background-image: url({% static recipe.image %}); background-position: center; background-size: cover; height: 220px;">
+              <a href="{% url 'show_recipe' pk=recipe.id %}" type="button" class="btn btn-outline-success" style="background-color: #D77A61; border: #D77A61; color:black; ">
+                click for more
+              </a>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+  // store messages
+  var msg0 = '"stand up every 30 minutes while working!"'
+  var msg1 = '"get sunlight every day!"'
+  var msg2 = '"fill your home with houseplants!"'
+  var msg3 = '" Drink at least 8 glasses of water a day "'
+  
+  // get random number
+  
+  var numRand;
+  var max = 4;
+  
+  numRand = Math.floor(Math.random() * max );
+  // display random messages
+  document.querySelector('#tips').innerHTML = eval('msg' +numRand)
+  
+  var height =Number("{{user.profile.height}}")
+  var weight =Number("{{user.profile.weight}}")
+  var activity_level =String("{{user.profile.activity_level}}")
+  var age = Number("{{user.profile.age}}")
+  var gender = String("{{user.profile.gender}}")
+  var gole_type = String("{{user.profile.goal_type}}")
+  console.log(height)
+  console.log(weight)
+  console.log(activity_level)
+  console.log(age)
+  console.log(gender)
+  console.log(gole_type)
+  
+   if (gender == 'male') {
+  resultMale  =  66 + ( 13.75 * weight ) + ( 5 * height ) - ( 6.76 * age)  
+      
+      if(activity_level == 'not active'){
+          resultMale = resultMale * 1.2
+      }else if (activity_level == 'somewhat active'){
+        resultMale = resultMale * 1.375
+      }else if (activity_level == 'medium active'){
+        resultMale = resultMale * 1.55
+      }else if (activity_level == 'highly active'){
+        resultMale = resultMale * 1.725
+      }else{
+        resultMale = resultMale * 1.9
+      }
+  
+  // document.querySelector('.result').innerHTML += "Your calories to maintain your weight "+resultMale + " g";
+  
+       if (gole_type == "lose weight") {
+          goal = resultMale - 500
+          // document.querySelector('.goal').innerHTML +="Your calories to lose wight "   + goal+ "g";
+          document.querySelector('.goal-progress').innerHTML += goal.toFixed(2);
+  
+      } else {
+          goal = resultMale + 500
+          // document.querySelector('.goal').innerHTML +="Your calories to gain wight " + goal+ "g";
+          document.querySelector('.goal-progress').innerHTML += goal.toFixed(2);
+      }
+  
+        protein = ( 1.1 * (weight/0.45359237) )
+        // document.querySelector('.protein').innerHTML += "protein"+protein.toFixed(2)+ "g";
+  
+        fatsForMale= (resultMale * 0.25)/9
+        // document.querySelector('.fats').innerHTML += "fats"+fatsForMale.toFixed(2)+ "g";
+  
+        carbsforMale= (resultMale - ( protein * 4 )+(fatsForMale * 9))/4
+        // document.querySelector('.carbs').innerHTML += "carbs "+carbsforMale.toFixed(2)+ "g";
+  
+  
+  } else {
+  resultFemale = 655+( 9.56*weight)+(1.85*height)-(4.68*age)
+  
+      if (activity_level == 'not active'){
+          resultFemale = resultFemale * 1.2
+      }else if (activity_level == 'somewhat active'){
+          resultFemale = resultFemale * 1.375
+      }else if (activity_level == 'medium active'){
+          resultFemale = resultFemale * 1.55
+      }else if (activity_level == 'highly active'){
+          resultFemale = resultFemale * 1.725
+      }else{
+          resultFemale = resultFemale * 1.9
+      }
+  
+  // {% comment %} document.querySelector('.result').innerHTML += "Your calories to maintain your weight " +resultFemale+" g"; {% endcomment %}
+      
+      if (gole_type == "lose weight"){        
+           goal = resultFemale - 500
+          //{% comment %} document.querySelector('.goal').innerHTML +="Your calories to lose wight " + goal+ "g"; {% endcomment %}
+          document.querySelector('.goal-progress').innerHTML += goal.toFixed(2);
+          }else{        
+          goal = resultFemale + 500
+          //{% comment %} document.querySelector('.goal').innerHTML +="Your calories to gain wight " + goal+ "g"; {% endcomment %}
+          document.querySelector('.goal-progress').innerHTML += goal.toFixed(2);
+          } 
+  
+  protein = ( 2.2 * weight )
+  // document.querySelector('.protein').innerHTML += "protein"+protein.toFixed(2)+ "g";
+  
+  
+  fatsForFemale= (resultFemale * 0.25)/9
+  // document.querySelector('.fats').innerHTML += "fats"+fatsForFemale.toFixed(2)+ "g";
+  
+  
+  carbsforFemale= (resultFemale - ( protein * 4 )+(fatsForFemale * 9))/4
+  // document.querySelector('.carbs').innerHTML += "carbs"+carbsforFemale.toFixed(2)+ "g";
+  
+  }
+  FoodMeal = 0
+  today_cal = 0
+  today_cal_gole =  document.querySelector('.goal-progress').innerHTML
+  {% for foodday in foods %}
+  {% ifequal foodday.user.id user.id%}
+  
+  today_cal += {{foodday.total_calories}}
+  FoodMeal += 1
+  {% endifequal %}
+  {% endfor %}
+  
+  document.querySelector('.totalCalories').innerHTML += today_cal;
+  document.querySelector('.Caloriesleft').innerHTML +=(today_cal_gole -  today_cal).toFixed(2);
+  document.querySelector('.FoodMeal').innerHTML += FoodMeal;
+  document.querySelector('.prog-num').innerHTML = (((today_cal*1)/today_cal_gole)*100).toFixed(2)+ " %"
+  document.querySelector('#progress-width').style.width = (((today_cal*1)/today_cal_gole)*100).toFixed(2)+"%";  
+  </script>
+{% endblock %}

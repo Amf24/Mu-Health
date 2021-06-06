@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags%}
+
+
+<div class="container mt-5 mb-5 shadow" style="width:60%; background-color: #DBD3D8; border-radius: 20px;">
+
+    <div class="row justify-content-center mt-5" style="color:#6D6875">
+        <div class="col-md-6" style="text-align: center;">
+            <h1 style="margin-bottom: 20px;">edit profile </h1>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form | crispy}}
+                {{ProfileForm | crispy}}
+                <input class="btn mt-2" style="margin-bottom:20px; background:#D8B4A0; text-transform:uppercase; border-radius: 30px; font-size: 15px; cursor: pointer; width:29%" type="submit">
+                <button type="button" class="g-btn" style="display: block; margin: 0 auto; border-radius: 30px; padding: 7px; font-size: 15px; cursor: pointer; margin-bottom: 20px; background:transparent; border:2px solid #6D6875; color:#8fa1c7;">Connect with <span style="font-weight: bold; color: #455a81;">Google</span></button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock  %}
